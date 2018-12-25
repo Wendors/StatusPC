@@ -6,7 +6,7 @@ names = "StatusPC"
 scripts = "StatusPC"
 icons = "StatusPC"
 num = 2
-path = '"C:/Program Files (x86)/Windows Kits/10/Redist/ucrt/DLLs/x86"'
+path = '"C:/Program Files (x86)/Windows Kits/10/Redist/10.0.17763.0/ucrt/DLLs/x86"'
 pathQt = 'C:/Python37/Lib/site-packages/PyQt5/Qt/bin'
 if str(num) == "1":
     pacs = "--onefile --console"
