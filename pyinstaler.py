@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Сергі Полунець'
-__versions__ = "v.3.7.5-32"
+__versions__ = "v.3.7.2-32"
 import os
 names = "StatusPC"
 scripts = "StatusPC"
