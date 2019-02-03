@@ -19,7 +19,7 @@ class Ui_Form(object):
         self.disctop = QtWidgets.QApplication.desktop()
         Form.move(int(self.disctop.width() - 376), 0)
         Form.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        Form.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
+        Form.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnBottomHint)
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(10, -20, 351, 101))
         palette = QtGui.QPalette()
