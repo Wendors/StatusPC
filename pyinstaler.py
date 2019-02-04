@@ -16,5 +16,5 @@ elif str(num) == "3":
     pacs = "--onefile --windowed"
 else:
     pacs = "--console"
-os.system("pyinstaller.exe {0} --icon={1}.ico {2}.pyw --name={3} --paths={4} --paths={5} ".format(pacs, icons, scripts, names, path, pathQt))
+os.system("pyinstaller.exe {0} --icon={1}.ico {2}.py --name={3} --paths={4} --paths={5} ".format(pacs, icons, scripts, names, path, pathQt))
 #os.system("del /a " + "{0}.spec".format(names))

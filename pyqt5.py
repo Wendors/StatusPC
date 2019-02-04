@@ -1,3 +1,3 @@
 import os
 
-os.system("pyuic5 Clock.ui -o StatusPC.py -x")
+os.system("pyuic5 Clock.ui -o StatusPC2.py -x")
