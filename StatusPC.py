@@ -8,7 +8,7 @@
 
 import os
 import time
-import winreg
+#import winreg
 import psutil
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -49,7 +49,7 @@ class Ui_Form(object):
         self.label.setGraphicsEffect(self.shadow)
         font = QtGui.QFont()
         font.setFamily("Cooper Black")
-        font.setPointSize(60)
+        font.setPointSize(50)
         font.setBold(True)
         font.setWeight(75)
         self.label.setFont(font)
@@ -75,7 +75,7 @@ class Ui_Form(object):
         self.label_2.setGraphicsEffect(self.shadow_2)
         font = QtGui.QFont()
         font.setFamily("Bookman Old Style")
-        font.setPointSize(24)
+        font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
         self.label_2.setFont(font)
@@ -496,13 +496,18 @@ class Ui_Form(object):
         self.label_4.setText(_translate("Form", "0 %"))
         self.label_9.setText(_translate("Form", "RAM"))
         self.label_10.setText(_translate("Form", ""))
-        self.label_14.setText(_translate("Form", "C:\\"))
+        if sys.platform == 'linux':
+            self.label_14.setText(_translate("Form", "/"))
+            self.label_19.setText(_translate("Form", "/home"))
+            self.label_21.setText(_translate("Form", "E:\\"))
+        else:
+            self.label_14.setText(_translate("Form", "C:\\"))
+            self.label_19.setText(_translate("Form", "D:\\"))
+            self.label_21.setText(_translate("Form", "E:\\"))
         self.label_15.setText(_translate("Form", ""))
-        self.label_19.setText(_translate("Form", "D:\\"))
         self.label_20.setText(_translate("Form", ""))
         self.label_24.setText(_translate("Form", ""))
         self.label_25.setText(_translate("Form", ""))
-        self.label_21.setText(_translate("Form", "E:\\"))
         self.label_29.setText(_translate("Form", ""))
         self.label_28.setText(_translate("Form", ""))
 
@@ -543,22 +548,29 @@ class Ui_Form(object):
     def Disk_(self):
         self.disks = psutil.disk_partitions()
         self.listdisk = []
-        for i in self.disks:
-            if i.opts == "rw,fixed":
-                self.listdisk.append(i.device)
+        if sys.platform == 'linux':
+            self.driv_ = "/"
+            self.driv_H = str(os.environ["HOME"])
+            self.listdisk = [self.driv_, self.driv_H]
+        else:
+            self.driv_ = str(os.environ["SYSTEMDRIVE"])
+            self.driv_H = "D:\\"
+            for i in self.disks:
+                if i.opts == "rw,fixed":
+                    self.listdisk.append(i.device)
         for i in self.listdisk:
-            if i == str(os.environ["SYSTEMDRIVE"]) + "\\":
+            if i == self.driv_: #  str(os.environ["SYSTEMDRIVE"]) + "\\" --для WINDOWS
                 self.disk_c = psutil.disk_usage(i)
                 self.label_15.setText("{0} Gb".format(round(float(self.disk_c.used) / 1000000000, 1)))
                 self.label_24.setText("{0} Gb".format(int(self.disk_c.total / 1000000000)))
                 self.cpro = int(self.disk_c.percent) * 291 / 100
-                self.label_18.setGeometry(QtCore.QRect(80, 270, self.cpro, 31))
-            if i == "D:\\":
+                self.label_18.setGeometry(QtCore.QRect(80, 270, int(self.cpro), 31))
+            if i == self.driv_H:
                 self.disk_d = psutil.disk_usage(i)
                 self.label_20.setText("{0} Gb".format(round(float(self.disk_d.used) / 1000000000, 1)))
                 self.label_25.setText("{0} Gb".format(int(self.disk_d.total / 1000000000)))
                 self.dpro = int(self.disk_d.percent) * 291 / 100
-                self.label_23.setGeometry(QtCore.QRect(80, 340, self.dpro, 31))
+                self.label_23.setGeometry(QtCore.QRect(80, 340, int(self.dpro), 31))
             if i == "E:\\":
                 self.disk_e = psutil.disk_usage(i)
                 self.label_29.setText("{0} Gb".format(round(float(self.disk_e.used) / 1000000000, 1)))
@@ -602,6 +614,7 @@ class Ui_Form(object):
 
 if __name__ == "__main__":
     import sys
+    """
     try:
         regs = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
         mykeys = winreg.OpenKey(regs, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 0, winreg.KEY_ALL_ACCESS)
@@ -613,6 +626,8 @@ if __name__ == "__main__":
     mykeys = winreg.OpenKey(regs, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 0, winreg.KEY_ALL_ACCESS)
     winreg.SetValueEx(mykeys, 'StatisPC', 0, winreg.REG_SZ, '"' + sys.argv[0] + '"' + " Minimum")
     winreg.CloseKey(mykeys)
+    """
+
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = Ui_Form()
