@@ -7,7 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 import os
+from re import T
 import time
+import sys
 
 # import winreg
 import psutil
@@ -24,11 +26,11 @@ class Ui_Form(object):
         self.disctop = QtWidgets.QApplication.desktop()
         Form.move(int(self.disctop.width() - 376), 0)
         Form.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        Form.setWindowFlags(
-            QtCore.Qt.Tool
-            | QtCore.Qt.FramelessWindowHint
-            | QtCore.Qt.WindowStaysOnBottomHint
-        )
+        #        Form.setWindowFlags(
+        #           QtCore.Qt.Tool
+        #          | QtCore.Qt.FramelessWindowHint
+        #         | QtCore.Qt.WindowStaysOnBottomHint
+        #    )
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(10, -20, 351, 101))
         palette = QtGui.QPalette()
@@ -559,17 +561,22 @@ class Ui_Form(object):
         if sys.platform == "linux":
             self.label_14.setText(_translate("Form", "/"))
             self.label_19.setText(_translate("Form", "/home"))
-            self.label_21.setText(_translate("Form", "E:\\"))
+            self.label_21.hide()
+            self.label_29.hide()
+            self.label_26.hide()
+            self.label_27.hide()
+            self.label_28.hide()
+
         else:
             self.label_14.setText(_translate("Form", "C:\\"))
             self.label_19.setText(_translate("Form", "D:\\"))
             self.label_21.setText(_translate("Form", "E:\\"))
-        self.label_15.setText(_translate("Form", ""))
-        self.label_20.setText(_translate("Form", ""))
-        self.label_24.setText(_translate("Form", ""))
-        self.label_25.setText(_translate("Form", ""))
-        self.label_29.setText(_translate("Form", ""))
-        self.label_28.setText(_translate("Form", ""))
+            self.label_15.setText(_translate("Form", ""))
+            self.label_20.setText(_translate("Form", ""))
+            self.label_24.setText(_translate("Form", ""))
+            self.label_25.setText(_translate("Form", ""))
+            self.label_29.setText(_translate("Form", ""))
+            self.label_28.setText(_translate("Form", ""))
 
     def Taime_(self):
         self.time = time.strftime("%H:%M:%S")
@@ -702,7 +709,7 @@ if __name__ == "__main__":
         pass
     regs = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
     mykeys = winreg.OpenKey(regs, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 0, winreg.KEY_ALL_ACCESS)
-    winreg.SetValueEx(mykeys, 'StatisPC', 0, winreg.REG_SZ, '"' + sys.argv[0] + '"' + " Minimum")
+    winreg.SetValueEx(mykeys, 'StatisPC', 0, winreg.REG_SZ, '"' + sys.argv[0].replace('\\', '\\\\') + '"' + " Minimum")
     winreg.CloseKey(mykeys)
     """
 
