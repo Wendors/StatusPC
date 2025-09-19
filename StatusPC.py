@@ -7,9 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 import os
-from re import T
-import time
 import sys
+import time
+from re import T
 
 # import winreg
 import psutil
@@ -26,11 +26,11 @@ class Ui_Form(object):
         self.disctop = QtWidgets.QApplication.desktop()
         Form.move(int(self.disctop.width() - 376), 0)
         Form.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        #        Form.setWindowFlags(
-        #           QtCore.Qt.Tool
-        #          | QtCore.Qt.FramelessWindowHint
-        #         | QtCore.Qt.WindowStaysOnBottomHint
-        #    )
+        Form.setWindowFlags(
+            QtCore.Qt.Tool
+            | QtCore.Qt.FramelessWindowHint
+            | QtCore.Qt.WindowStaysOnBottomHint
+        )
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(10, -20, 351, 101))
         palette = QtGui.QPalette()
@@ -566,7 +566,11 @@ class Ui_Form(object):
             self.label_26.hide()
             self.label_27.hide()
             self.label_28.hide()
-
+            self.label_19.hide()
+            self.label_20.hide()
+            self.label_22.hide()
+            self.label_23.hide()
+            self.label_25.hide()
         else:
             self.label_14.setText(_translate("Form", "C:\\"))
             self.label_19.setText(_translate("Form", "D:\\"))
@@ -631,43 +635,67 @@ class Ui_Form(object):
             self.driv_ = "/"
             self.driv_H = str(os.environ["HOME"])
             self.listdisk = [self.driv_, self.driv_H]
+            for i in self.listdisk:
+                if i == self.driv_:
+                    self.disk_c = psutil.disk_usage(i)
+                    self.label_15.setText(
+                        "{0} Gb".format(round(float(self.disk_c.used) / 1000000000, 1))
+                    )
+                    self.label_24.setText(
+                        "{0} Gb".format(int(self.disk_c.total / 1000000000))
+                    )
+                    self.cpro = int(self.disk_c.percent) * 291 / 100
+                    self.label_18.setGeometry(QtCore.QRect(80, 270, int(self.cpro), 31))
+
         else:
             self.driv_ = str(os.environ["SYSTEMDRIVE"])
             self.driv_H = "D:\\"
             for i in self.disks:
                 if i.opts == "rw,fixed":
                     self.listdisk.append(i.device)
-        for i in self.listdisk:
-            if i == self.driv_:  #  str(os.environ["SYSTEMDRIVE"]) + "\\" --для WINDOWS
-                self.disk_c = psutil.disk_usage(i)
-                self.label_15.setText(
-                    "{0} Gb".format(round(float(self.disk_c.used) / 1000000000, 1))
-                )
-                self.label_24.setText(
-                    "{0} Gb".format(int(self.disk_c.total / 1000000000))
-                )
-                self.cpro = int(self.disk_c.percent) * 291 / 100
-                self.label_18.setGeometry(QtCore.QRect(80, 270, int(self.cpro), 31))
-            if i == self.driv_H:
-                self.disk_d = psutil.disk_usage(i)
-                self.label_20.setText(
-                    "{0} Gb".format(round(float(self.disk_d.used) / 1000000000, 1))
-                )
-                self.label_25.setText(
-                    "{0} Gb".format(int(self.disk_d.total / 1000000000))
-                )
-                self.dpro = int(self.disk_d.percent) * 291 / 100
-                self.label_23.setGeometry(QtCore.QRect(80, 340, int(self.dpro), 31))
-            if i == "E:\\":
-                self.disk_e = psutil.disk_usage(i)
-                self.label_29.setText(
-                    "{0} Gb".format(round(float(self.disk_e.used) / 1000000000, 1))
-                )
-                self.label_28.setText(
-                    "{0} Gb".format(int(self.disk_e.total / 1000000000))
-                )
-                self.epro = int(self.disk_e.percent) * 291 / 100
-                self.label_27.setGeometry(QtCore.QRect(80, 410, self.epro, 31))
+                for i in self.listdisk:
+                    if (
+                        i == self.driv_
+                    ):  #  str(os.environ["SYSTEMDRIVE"]) + "\\" --для WINDOWS
+                        self.disk_c = psutil.disk_usage(i)
+                        self.label_15.setText(
+                            "{0} Gb".format(
+                                round(float(self.disk_c.used) / 1000000000, 1)
+                            )
+                        )
+                        self.label_24.setText(
+                            "{0} Gb".format(int(self.disk_c.total / 1000000000))
+                        )
+                        self.cpro = int(self.disk_c.percent) * 291 / 100
+                        self.label_18.setGeometry(
+                            QtCore.QRect(80, 270, int(self.cpro), 31)
+                        )
+                    if i == self.driv_H:
+                        self.disk_d = psutil.disk_usage(i)
+                        self.label_20.setText(
+                            "{0} Gb".format(
+                                round(float(self.disk_d.used) / 1000000000, 1)
+                            )
+                        )
+                        self.label_25.setText(
+                            "{0} Gb".format(int(self.disk_d.total / 1000000000))
+                        )
+                        self.dpro = int(self.disk_d.percent) * 291 / 100
+                        self.label_23.setGeometry(
+                            QtCore.QRect(80, 340, int(self.dpro), 31)
+                        )
+                    if i == "E:\\":
+                        self.disk_e = psutil.disk_usage(i)
+                        self.label_29.setText(
+                            "{0} Gb".format(
+                                round(float(self.disk_e.used) / 1000000000, 1)
+                            )
+                        )
+                        self.label_28.setText(
+                            "{0} Gb".format(int(self.disk_e.total / 1000000000))
+                        )
+                        self.epro = int(self.disk_e.percent) * 291 / 100
+                        self.label_27.setGeometry(QtCore.QRect(80, 410, self.epro, 31))
 
     def _Udate(self):
         # Переопридиления  Time
