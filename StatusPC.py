@@ -9,9 +9,8 @@
 import os
 import sys
 import time
-from re import T
+from re import *
 
-# import winreg
 import psutil
 from PyQt5 import QtCore, QtGui, QtWidgets
 
